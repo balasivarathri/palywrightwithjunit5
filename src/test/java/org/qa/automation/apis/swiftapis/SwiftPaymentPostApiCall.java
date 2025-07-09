@@ -8,11 +8,11 @@ import com.microsoft.playwright.APIRequestContext;
 import com.microsoft.playwright.APIResponse;
 import com.microsoft.playwright.options.RequestOptions;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
 import org.qa.automation.POJO_Payloads.Users;
 import org.qa.automation.base.TestBase;
 import org.qa.automation.report.Report;
 import org.qa.automation.utils.Pacs008RefGenerator;
-import org.testng.Assert;
 
 import java.io.IOException;
 import java.util.Map;
@@ -40,7 +40,7 @@ public class SwiftPaymentPostApiCall extends TestBase {
         String responseText = apiResponse.text();
         int statusCode = apiResponse.status();
         System.out.println("Response Status Code is: " + statusCode);
-        Assert.assertEquals(statusCode, 201);
+        Assertions.assertEquals(statusCode, 201);
         ObjectMapper objectMapper = new ObjectMapper();
         Users actualUsers = objectMapper.readValue(responseText, Users.class);
         System.out.println(actualUsers);

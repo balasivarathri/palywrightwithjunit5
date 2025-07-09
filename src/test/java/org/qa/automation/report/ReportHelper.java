@@ -8,17 +8,27 @@ import java.util.ArrayList;
 
 public class ReportHelper {
     public static void generateCucumberReport(){
-        File reportOutputDirectory = new File("target");
-        ArrayList<String> jsonFiles = new ArrayList<>();
-        jsonFiles.add("target/jsonReports/cucumber-reports.json");
-        String projectname = "UI-Report";
-        Configuration configuration = new Configuration(reportOutputDirectory, projectname);
-        configuration.addClassifications("Platform","Windows11");
-        configuration.addClassifications("Browser","Chrome");
-        configuration.addClassifications("Environment","UAT");
-        configuration.addClassifications("Test Team","APPLICATION_UAT");
-        ReportBuilder reportBuilder = new ReportBuilder(jsonFiles, configuration);
-        reportBuilder.generateReports();
-    }
+        System.out.println("✅ Inside generateCucumberReport");
 
+        // Use a separate folder to avoid conflicts
+        File reportOutputDirectory = new File("target/cucumber-html-reports");
+        ArrayList<String> jsonFiles = new ArrayList<>();
+        jsonFiles.add("target/cucumber-reports/cucumber.json"); // ✅ Correct path
+        String projectname = "UI-Report";
+
+        Configuration configuration = new Configuration(reportOutputDirectory, projectname);
+        configuration.addClassifications("Platform", "Windows11");
+        configuration.addClassifications("Browser", "Chrome");
+        configuration.addClassifications("Environment", "UAT");
+        configuration.addClassifications("Test Team", "APPLICATION_UAT");
+
+        try {
+            ReportBuilder reportBuilder = new ReportBuilder(jsonFiles, configuration);
+            reportBuilder.generateReports();
+            System.out.println("✅ Report generated at: target/html-report/index.html");
+        } catch (Exception e) {
+            System.err.println("❌ Failed to generate report: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }
