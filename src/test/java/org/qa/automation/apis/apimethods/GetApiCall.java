@@ -8,9 +8,9 @@ import com.microsoft.playwright.APIRequestContext;
 import com.microsoft.playwright.APIResponse;
 import com.microsoft.playwright.options.RequestOptions;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
 import org.qa.automation.base.TestBase;
 import org.qa.automation.report.Report;
-import org.testng.Assert;
 
 import java.io.IOException;
 import java.util.List;
@@ -30,7 +30,7 @@ public class GetApiCall extends TestBase {
         apiResponse = apiRequestContext.get("https://gorest.co.in/public/v2/users");
         int statusCode = apiResponse.status();
         System.out.println("Response Status Code is: " + statusCode);
-        Assert.assertEquals(statusCode, 200);
+        Assertions.assertEquals(statusCode, 200);
         Report.validate(scenario, "Status Code has successfully extracted", "Status Code has successfully extracted", 200, statusCode);
         System.out.println(apiResponse.headers().get("content-type"));
         String url = apiResponse.url();

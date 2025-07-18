@@ -7,14 +7,13 @@ import com.microsoft.playwright.APIRequestContext;
 import com.microsoft.playwright.APIResponse;
 import com.microsoft.playwright.options.RequestOptions;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
 import org.qa.automation.POJO_Payloads.BookingPayload;
 import org.qa.automation.POJO_Payloads.BookingWrapper;
 import org.qa.automation.base.TestBase;
 import org.qa.automation.report.Report;
 import org.qa.automation.utils.DateUtils;
 import org.qa.automation.utils.Payloads;
-import org.testng.Assert;
-
 import java.io.IOException;
 import java.util.Base64;
 import java.util.Map;
@@ -41,7 +40,7 @@ public class BookerUserApiCall extends TestBase {
                         .setData(Payloads.bookerUserPayload()));
         int statusCode = apiResponse.status();
         System.out.println("Response Status Code For POST Call is: " + statusCode);
-        Assert.assertEquals(statusCode, 200);
+        Assertions.assertEquals(statusCode, 200);
         Report.log(scenario, "Status Code has successfully extracted : " + statusCode);
 
         ObjectMapper om = new ObjectMapper();
@@ -82,17 +81,17 @@ public class BookerUserApiCall extends TestBase {
         String responseText = apiResponse.text();
         int statusCode = apiResponse.status();
         System.out.println("Response Status Code for POST call is: " + statusCode);
-        Assert.assertEquals(statusCode, 200);
+        Assertions.assertEquals(statusCode, 200);
         ObjectMapper objectMapper = new ObjectMapper();
         BookingWrapper wrapper = objectMapper.readValue(responseText, BookingWrapper.class);
         BookingPayload bookingPayloadResponse = wrapper.getBooking();
 
-        Assert.assertEquals(bookingPayload.getFirstname(), bookingPayloadResponse.getFirstname());
-        Assert.assertEquals(bookingPayload.getLastname(), bookingPayloadResponse.getLastname());
-        Assert.assertEquals(bookingPayload.getTotalprice(), bookingPayloadResponse.getTotalprice());
-        Assert.assertEquals(bookingPayload.isDepositpaid(), bookingPayloadResponse.isDepositpaid());
-        Assert.assertEquals(bookingPayload.getBookingdates(), bookingPayloadResponse.getBookingdates());
-        Assert.assertEquals(bookingPayload.getAdditionalneeds(), bookingPayloadResponse.getAdditionalneeds());
+        Assertions.assertEquals(bookingPayload.getFirstname(), bookingPayloadResponse.getFirstname());
+        Assertions.assertEquals(bookingPayload.getLastname(), bookingPayloadResponse.getLastname());
+        Assertions.assertEquals(bookingPayload.getTotalprice(), bookingPayloadResponse.getTotalprice());
+        Assertions.assertEquals(bookingPayload.isDepositpaid(), bookingPayloadResponse.isDepositpaid());
+        Assertions.assertEquals(bookingPayload.getBookingdates(), bookingPayloadResponse.getBookingdates());
+        Assertions.assertEquals(bookingPayload.getAdditionalneeds(), bookingPayloadResponse.getAdditionalneeds());
         Report.validate(scenario, "Status Code has successfully extracted", "Status Code has not successfully extracted", 200, statusCode);
     }
 
@@ -171,17 +170,17 @@ public class BookerUserApiCall extends TestBase {
         System.out.println("PUT Status Code: " + statusCode);
         System.out.println("PUT Response Body: " + responseText);
 
-        Assert.assertEquals(200, statusCode);
+        Assertions.assertEquals(200, statusCode);
 
         ObjectMapper objectMapper = new ObjectMapper();
         BookingPayload responsePayload = objectMapper.readValue(responseText, BookingPayload.class);
 
-        Assert.assertEquals(bookingPayload.getFirstname(), responsePayload.getFirstname());
-        Assert.assertEquals(bookingPayload.getLastname(), responsePayload.getLastname());
-        Assert.assertEquals(bookingPayload.getTotalprice(), responsePayload.getTotalprice());
-        Assert.assertEquals(bookingPayload.isDepositpaid(), responsePayload.isDepositpaid());
-        Assert.assertEquals(bookingPayload.getBookingdates(), responsePayload.getBookingdates());
-        Assert.assertEquals(bookingPayload.getAdditionalneeds(), responsePayload.getAdditionalneeds());
+        Assertions.assertEquals(bookingPayload.getFirstname(), responsePayload.getFirstname());
+        Assertions.assertEquals(bookingPayload.getLastname(), responsePayload.getLastname());
+        Assertions.assertEquals(bookingPayload.getTotalprice(), responsePayload.getTotalprice());
+        Assertions.assertEquals(bookingPayload.isDepositpaid(), responsePayload.isDepositpaid());
+        Assertions.assertEquals(bookingPayload.getBookingdates(), responsePayload.getBookingdates());
+        Assertions.assertEquals(bookingPayload.getAdditionalneeds(), responsePayload.getAdditionalneeds());
 
         Report.validate(scenario, "Booking updated successfully", "Booking update failed", 200, statusCode);
     }
@@ -193,7 +192,7 @@ public class BookerUserApiCall extends TestBase {
                         .setHeader("Authorization", "Bearer " + token));
         int statusCode = apiResponse.status();
         System.out.println("Extracted status code for delete api is : " + statusCode);
-        Assert.assertEquals(statusCode, 204);
+        Assertions.assertEquals(statusCode, 204);
     }
 }
 

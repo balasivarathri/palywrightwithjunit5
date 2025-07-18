@@ -1,5 +1,6 @@
 package org.qa.automation.apis.apimethods;
 
+import org.junit.jupiter.api.Assertions;
 import org.qa.automation.POJO_Payloads.TokenGenerator;
 import org.qa.automation.POJO_Payloads.UsersList;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -12,7 +13,6 @@ import com.microsoft.playwright.options.RequestOptions;
 import lombok.extern.slf4j.Slf4j;
 import org.qa.automation.base.TestBase;
 import org.qa.automation.report.Report;
-import org.testng.Assert;
 
 import java.io.IOException;
 import java.util.Map;
@@ -43,7 +43,7 @@ public class UserApiCall extends TestBase {
                         .setData(tokenGenerator));
         int statusCode = apiResponse.status();
         System.out.println("Response Status Code is: " + statusCode);
-        Assert.assertEquals(statusCode, 200);
+        Assertions.assertEquals(statusCode, 200);
         Report.log(scenario, "Status Code has successfully extracted : " + statusCode);
 
         ObjectMapper om = new ObjectMapper();
@@ -75,16 +75,16 @@ public class UserApiCall extends TestBase {
         String responseText = apiResponse.text();
         int statusCode = apiResponse.status();
         System.out.println("Response Status Code is: " + statusCode);
-        Assert.assertEquals(statusCode, 201);
+        Assertions.assertEquals(statusCode, 201);
         ObjectMapper objectMapper = new ObjectMapper();
         UsersList actualUsers = objectMapper.readValue(responseText, UsersList.class);
         System.out.println(actualUsers);
 
-        Assert.assertEquals(actualUsers.getUsername(), usersList.getUsername());
-        Assert.assertEquals(actualUsers.getFirstName(), usersList.getFirstName());
-        Assert.assertEquals(actualUsers.getLastName(), usersList.getLastName());
-        Assert.assertEquals(actualUsers.getEmail(), usersList.getEmail());
-        Assert.assertEquals(actualUsers.getPhone(), usersList.getPhone());
+        Assertions.assertEquals(actualUsers.getUsername(), usersList.getUsername());
+        Assertions.assertEquals(actualUsers.getFirstName(), usersList.getFirstName());
+        Assertions.assertEquals(actualUsers.getLastName(), usersList.getLastName());
+        Assertions.assertEquals(actualUsers.getEmail(), usersList.getEmail());
+        Assertions.assertEquals(actualUsers.getPhone(), usersList.getPhone());
         Report.validate(scenario, "Status Code has successfully extracted", "Status Code has not successfully extracted", 201, statusCode);
     }
 
@@ -132,7 +132,7 @@ public class UserApiCall extends TestBase {
         String responseText = apiResponse.text();
         int statusCode = apiResponse.status();
         System.out.println("Response Status Code is: " + statusCode);
-        Assert.assertEquals(statusCode, 200);
+        Assertions.assertEquals(statusCode, 200);
         ObjectMapper objectMapper = new ObjectMapper();
         UsersList actualUsers = objectMapper.readValue(responseText, UsersList.class);
         System.out.println(actualUsers);
@@ -151,7 +151,7 @@ public class UserApiCall extends TestBase {
                         .setHeader("Authorization", "Bearer " + token));
         int statusCode = apiResponse.status();
         System.out.println("Extracted status code for delete api is : " + statusCode);
-        Assert.assertEquals(statusCode, 204);
+        Assertions.assertEquals(statusCode, 204);
     }
 }
 

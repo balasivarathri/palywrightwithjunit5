@@ -1,5 +1,6 @@
 package org.qa.automation.apis.apimethods;
 
+import org.junit.jupiter.api.Assertions;
 import org.qa.automation.POJO_Payloads.Users;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -11,7 +12,6 @@ import com.microsoft.playwright.options.RequestOptions;
 import lombok.extern.slf4j.Slf4j;
 import org.qa.automation.base.TestBase;
 import org.qa.automation.report.Report;
-import org.testng.Assert;
 import java.io.IOException;
 import java.util.Map;
 import static org.qa.automation.utils.Payloads.generateThreeDigitNumber;
@@ -43,17 +43,17 @@ public class PostApiCall extends TestBase {
         String responseText = apiResponse.text();
         int statusCode = apiResponse.status();
         System.out.println("Response Status Code is: " + statusCode);
-        Assert.assertEquals(statusCode, 201);
+        Assertions.assertEquals(statusCode, 201);
         ObjectMapper objectMapper = new ObjectMapper();
         Users actualUsers = objectMapper.readValue(responseText, Users.class);
         System.out.println(actualUsers);
 
 
-        Assert.assertNotNull(actualUsers.getId());
-        Assert.assertEquals(actualUsers.getName(),users.getName());
-        Assert.assertEquals(actualUsers.getEmail(),users.getEmail());
-        Assert.assertEquals(actualUsers.getGender(),users.getGender());
-        Assert.assertEquals(actualUsers.getStatus(),users.getStatus());
+        Assertions.assertNotNull(actualUsers.getId());
+        Assertions.assertEquals(actualUsers.getName(),users.getName());
+        Assertions.assertEquals(actualUsers.getEmail(),users.getEmail());
+        Assertions.assertEquals(actualUsers.getGender(),users.getGender());
+        Assertions.assertEquals(actualUsers.getStatus(),users.getStatus());
 
         Report.validate(scenario, "Status Code has successfully extracted", "Status Code has not successfully extracted", 201, statusCode);
     }

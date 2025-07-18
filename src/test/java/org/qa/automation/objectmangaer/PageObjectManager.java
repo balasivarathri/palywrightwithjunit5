@@ -32,5 +32,4 @@ public class PageObjectManager {
         checkOutOverViewPage = new CheckOutOverViewPage(page);
         return checkOutOverViewPage;
     }
-
 }

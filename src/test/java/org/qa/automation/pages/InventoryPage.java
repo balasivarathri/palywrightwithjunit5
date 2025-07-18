@@ -3,8 +3,8 @@ package org.qa.automation.pages;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
 import org.qa.automation.report.Report;
-import org.testng.Assert;
 import static org.qa.automation.base.TestBase.scenario;
 
 @Slf4j
@@ -48,7 +48,7 @@ public class InventoryPage {
         clickiSecondItemButton();
         String actualaAddedItems = cartIcon.textContent();
         log.info("User has add the items to the cart");
-        Assert.assertEquals(actualaAddedItems, expectedAddedItems);
+        Assertions.assertEquals(actualaAddedItems, expectedAddedItems);
         Report.screenshot(scenario);
         Report.log(scenario, "Added items are : " + actualaAddedItems);
         clickCartIconButton();

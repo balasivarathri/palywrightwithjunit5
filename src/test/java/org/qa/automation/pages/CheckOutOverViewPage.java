@@ -3,8 +3,8 @@ package org.qa.automation.pages;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
 import org.qa.automation.report.Report;
-import org.testng.Assert;
 
 import static org.qa.automation.base.TestBase.page;
 import static org.qa.automation.base.TestBase.scenario;
@@ -51,7 +51,7 @@ public class CheckOutOverViewPage {
         clickOnOpenMenuButton();
         clickLogOutButton();
         String actualUrl = getUrl();
-        Assert.assertEquals(actualUrl, expectedUrl);
+        Assertions.assertEquals(actualUrl, expectedUrl);
         Report.log(scenario,"user is logged out successfully by checking the URL : " + actualUrl);
     }
 }
