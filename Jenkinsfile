@@ -27,7 +27,7 @@ pipeline
 			steps {
 				catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
 					git 'https://github.com/balasivarathri/palywrightwithjunit5.git'
-                    bat "mvn clean test"
+                    bat "mvn clean verify"
                 }
             }
         }
@@ -38,7 +38,7 @@ pipeline
                                   keepAll: true,
                                   reportDir: 'target/cucumber-html-reports',
                                   reportFiles: 'overview-features.html',
-                                  reportName: 'Cusotomized HTML Report',
+                                  reportName: 'Customized HTML Report',
                                   reportTitles: ''])
             }
         }
