@@ -30,7 +30,7 @@ public class Hook {
 
         // Simulate BeforeAllCallback logic
         if (isBeforeAllDone.compareAndSet(false, true)) {
-            log.info("------ CustomRunner Init START (Simulated) ------");
+            log.info("------ CustomRunner Init START ------");
             runAnnotatedMethods(Initialize.class);
             executionDateTime = Processor.getDateAsString(DATEFORMAT);
             log.info("------ CustomRunner Init END ------");

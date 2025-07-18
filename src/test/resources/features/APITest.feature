@@ -12,6 +12,6 @@ Feature: Validating POST and GET API for GOREST
     When User should be validate the reponse and verify user has been created
     Then User should validate the response with specific Id
 
-  @GetUser_Api_Gorest,
+  @GetUser_Api_Gorest
   Scenario: Validating GET GOREST API reponse for Users
     Given User should be to hit the gorest api to get the user response
