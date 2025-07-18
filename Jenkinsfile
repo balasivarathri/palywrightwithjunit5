@@ -26,8 +26,8 @@ pipeline
         stage('UAT') {
 			steps {
 				catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-					git 'https://github.com/balasivarathri/playwrightwithjava.git'
-                    bat "mvn clean install"
+					git 'https://github.com/balasivarathri/palywrightwithjunit5.git'
+                    bat "mvn clean test"
                 }
             }
         }
@@ -38,7 +38,7 @@ pipeline
                                   keepAll: true,
                                   reportDir: 'target/cucumber-html-reports',
                                   reportFiles: 'overview-features.html',
-                                  reportName: 'BALA HTML Report',
+                                  reportName: 'Cusotomized HTML Report',
                                   reportTitles: ''])
             }
         }
