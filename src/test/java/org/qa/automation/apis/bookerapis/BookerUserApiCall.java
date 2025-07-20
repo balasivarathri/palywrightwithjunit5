@@ -41,17 +41,17 @@ public class BookerUserApiCall extends TestBase {
         int statusCode = apiResponse.status();
         System.out.println("Response Status Code For POST Call is: " + statusCode);
         Assertions.assertEquals(statusCode, 200);
-        Report.log(scenario, "Status Code has successfully extracted : " + statusCode);
+        Report.log(TestBase.getScenario(), "Status Code has successfully extracted : " + statusCode);
 
         ObjectMapper om = new ObjectMapper();
         JsonNode jsonResponse = om.readTree(apiResponse.body());
         String jsonBody = jsonResponse.toPrettyString();
-        Report.log(scenario, "Post API Reponse JsonBody is : \n" + jsonBody);
+        Report.log(TestBase.getScenario(), "Post API Reponse JsonBody is : \n" + jsonBody);
         Map<String, Object> jsonResponseBody = om.readValue(jsonBody, new TypeReference<>() {
         });
         token = (String) jsonResponseBody.get("token");
         System.out.println("Extracted token is : " + token);
-        Report.log(scenario, "Extracted Token is : " + token);
+        Report.log(TestBase.getScenario(), "Extracted Token is : " + token);
     }
 
     public void postBookerUserApi() throws IOException {
@@ -92,7 +92,7 @@ public class BookerUserApiCall extends TestBase {
         Assertions.assertEquals(bookingPayload.isDepositpaid(), bookingPayloadResponse.isDepositpaid());
         Assertions.assertEquals(bookingPayload.getBookingdates(), bookingPayloadResponse.getBookingdates());
         Assertions.assertEquals(bookingPayload.getAdditionalneeds(), bookingPayloadResponse.getAdditionalneeds());
-        Report.validate(scenario, "Status Code has successfully extracted", "Status Code has not successfully extracted", 200, statusCode);
+        Report.validate(TestBase.getScenario(), "Status Code has successfully extracted", "Status Code has not successfully extracted", 200, statusCode);
     }
 
     public int validateBookerPostApiResponse() throws IOException {
@@ -100,7 +100,7 @@ public class BookerUserApiCall extends TestBase {
         JsonNode jsonResponse = om.readTree(apiResponse.body());
         String jsonBody = jsonResponse.toPrettyString();
         System.out.println(jsonBody);
-        Report.log(scenario, "Booker Post API Reponse JsonBody is : \n" + jsonBody);
+        Report.log(TestBase.getScenario(), "Booker Post API Reponse JsonBody is : \n" + jsonBody);
         Map<String, Object> jsonResponseBody = om.readValue(jsonBody, new TypeReference<>() {
         });
         int bookingid = (Integer) jsonResponseBody.get("bookingid");
@@ -119,7 +119,7 @@ public class BookerUserApiCall extends TestBase {
         JsonNode jsonResponse = om.readTree(apiResponse.body());
         String jsonBody = jsonResponse.toPrettyString();
         System.out.println("BOOKER API GET Reponse JsonBody is : \n" + jsonBody);
-        Report.log(scenario, "BOOKER API GET Reponse JsonBody is : \n" + jsonBody);
+        Report.log(TestBase.getScenario(), "BOOKER API GET Reponse JsonBody is : \n" + jsonBody);
     }
 
     public void getBookerForAllUsers() throws IOException {
@@ -133,7 +133,7 @@ public class BookerUserApiCall extends TestBase {
         JsonNode jsonResponse = om.readTree(apiResponse.body());
         String jsonBody = jsonResponse.toPrettyString();
 //        System.out.println("BOOKER API Booking Ids are : \n" + jsonBody);
-        Report.log(scenario, "BOOKER API Booking Ids are : \n" + jsonBody);
+        Report.log(TestBase.getScenario(), "BOOKER API Booking Ids are : \n" + jsonBody);
     }
 
     public void updateBookerUser(int bookingid) throws IOException {
@@ -182,7 +182,7 @@ public class BookerUserApiCall extends TestBase {
         Assertions.assertEquals(bookingPayload.getBookingdates(), responsePayload.getBookingdates());
         Assertions.assertEquals(bookingPayload.getAdditionalneeds(), responsePayload.getAdditionalneeds());
 
-        Report.validate(scenario, "Booking updated successfully", "Booking update failed", 200, statusCode);
+        Report.validate(TestBase.getScenario(), "Booking updated successfully", "Booking update failed", 200, statusCode);
     }
 
 

@@ -44,17 +44,17 @@ public class UserApiCall extends TestBase {
         int statusCode = apiResponse.status();
         System.out.println("Response Status Code is: " + statusCode);
         Assertions.assertEquals(statusCode, 200);
-        Report.log(scenario, "Status Code has successfully extracted : " + statusCode);
+        Report.log(TestBase.getScenario(), "Status Code has successfully extracted : " + statusCode);
 
         ObjectMapper om = new ObjectMapper();
         JsonNode jsonResponse = om.readTree(apiResponse.body());
         String jsonBody = jsonResponse.toPrettyString();
-        Report.log(scenario, "Post API Reponse JsonBody is : \n" + jsonBody);
+        Report.log(TestBase.getScenario(), "Post API Reponse JsonBody is : \n" + jsonBody);
         Map<String, Object> jsonResponseBody = om.readValue(jsonBody, new TypeReference<>() {
         });
         token = (String) jsonResponseBody.get("accessToken");
         System.out.println("Extracted token is : " + token);
-        Report.log(scenario, "Extracted Token is : " + token);
+        Report.log(TestBase.getScenario(), "Extracted Token is : " + token);
     }
 
     public void postUserApi() throws JsonProcessingException {
@@ -85,7 +85,7 @@ public class UserApiCall extends TestBase {
         Assertions.assertEquals(actualUsers.getLastName(), usersList.getLastName());
         Assertions.assertEquals(actualUsers.getEmail(), usersList.getEmail());
         Assertions.assertEquals(actualUsers.getPhone(), usersList.getPhone());
-        Report.validate(scenario, "Status Code has successfully extracted", "Status Code has not successfully extracted", 201, statusCode);
+        Report.validate(TestBase.getScenario(), "Status Code has successfully extracted", "Status Code has not successfully extracted", 201, statusCode);
     }
 
     public int validatePostApiResponse() throws IOException {
@@ -93,7 +93,7 @@ public class UserApiCall extends TestBase {
         JsonNode jsonResponse = om.readTree(apiResponse.body());
         String jsonBody = jsonResponse.toPrettyString();
         System.out.println(jsonBody);
-        Report.log(scenario, "Post API Reponse JsonBody is : \n" + jsonBody);
+        Report.log(TestBase.getScenario(), "Post API Reponse JsonBody is : \n" + jsonBody);
         Map<String, Object> jsonResponseBody = om.readValue(jsonBody, new TypeReference<>() {
         });
         int id = (Integer) jsonResponseBody.get("id");
@@ -112,7 +112,7 @@ public class UserApiCall extends TestBase {
         JsonNode jsonResponse = om.readTree(apiResponse.body());
         String jsonBody = jsonResponse.toPrettyString();
         System.out.println("GET API Reponse JsonBody is : \n" + jsonBody);
-        Report.log(scenario, "GET API Reponse JsonBody is : \n" + jsonBody);
+        Report.log(TestBase.getScenario(), "GET API Reponse JsonBody is : \n" + jsonBody);
     }
 
     public void updateUser(int idNumber) throws IOException {
@@ -136,13 +136,13 @@ public class UserApiCall extends TestBase {
         ObjectMapper objectMapper = new ObjectMapper();
         UsersList actualUsers = objectMapper.readValue(responseText, UsersList.class);
         System.out.println(actualUsers);
-        Report.validate(scenario, "Status Code has successfully extracted", "Status Code has not successfully extracted", 200, statusCode);
+        Report.validate(TestBase.getScenario(), "Status Code has successfully extracted", "Status Code has not successfully extracted", 200, statusCode);
 
         ObjectMapper om = new ObjectMapper();
         JsonNode jsonResponse = om.readTree(apiResponse.body());
         String jsonBody = jsonResponse.toPrettyString();
         System.out.println("Updated API Reponse JsonBody is : \n" + jsonBody);
-        Report.log(scenario, "Updated API Reponse JsonBody is : \n" + jsonBody);
+        Report.log(TestBase.getScenario(), "Updated API Reponse JsonBody is : \n" + jsonBody);
     }
 
     public void deleteUser(int idNumber) {

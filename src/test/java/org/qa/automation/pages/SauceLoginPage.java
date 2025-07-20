@@ -9,15 +9,16 @@ import org.qa.automation.report.Report;
 import org.qa.automation.urls.Url;
 
 @Slf4j
-public class SauceLoginPage extends TestBase {
+public class SauceLoginPage {
 
-
+    private final Page page;
     private final Locator sauceUserName;
     private final Locator saucePassword;
     private final Locator login;
     private final Locator errorMessage;
 
     public SauceLoginPage(Page page) {
+        this.page = page;
         this.sauceUserName = page.locator("//input[@placeholder='Username']");
         this.saucePassword = page.locator("//input[@placeholder='Password']");
         this.login = page.locator("//input[@name='login-button']");
@@ -27,9 +28,11 @@ public class SauceLoginPage extends TestBase {
     public void enterUsername(String username) {
         sauceUserName.fill(username);
     }
+
     public void enterPassword(String password) {
         saucePassword.fill(password);
     }
+
     public void clickLogin() {
         login.click();
     }
@@ -39,26 +42,25 @@ public class SauceLoginPage extends TestBase {
         enterUsername(userName);
         enterPassword(password);
         clickLogin();
-        Report.log(scenario, "User has successfully logged in");
+        Report.log(TestBase.getScenario(), "User has successfully logged in with username: " + userName);
     }
 
     public void userLoginPageScreenShot() {
-        Report.screenshot(scenario);
+        Report.screenshot(TestBase.getScenario());
     }
 
     public void getTheUrl() {
         String actualUrl = page.url();
         String expectedUrl = "https://www.saucedemo.com/inventory.html";
-        Assertions.assertEquals(actualUrl, expectedUrl);
-        Report.log(scenario, "Assertion passed and Actual Url is : " + actualUrl);
+        Assertions.assertEquals(expectedUrl, actualUrl, "URL mismatch after login.");
+        Report.log(TestBase.getScenario(), "Assertion passed. Actual URL: " + actualUrl);
     }
 
     public void validateErrorMessage() {
         String actualErrorMes = errorMessage.textContent();
         String expectedErrorMes = "Epic sadface: Sorry, this user has been locked out.";
-        log.info("Actual Error Message is : " + actualErrorMes);
-        Assertions.assertEquals(expectedErrorMes, actualErrorMes);
-        Report.log(scenario, "Actual Error Message is : " + actualErrorMes);
+        log.info("Actual Error Message: {}", actualErrorMes);
+        Assertions.assertEquals(expectedErrorMes, actualErrorMes, "Login error message did not match.");
+        Report.log(TestBase.getScenario(), "Actual Error Message: " + actualErrorMes);
     }
-
 }

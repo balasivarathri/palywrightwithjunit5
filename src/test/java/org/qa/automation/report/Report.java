@@ -10,7 +10,7 @@ import org.qa.automation.exceptions.GenericException;
 @Slf4j
 public class Report {
 
-    public Report() {
+    private Report() {
     }
 
     public static void log(Scenario scenario, String description) {
@@ -22,17 +22,9 @@ public class Report {
     }
 
     public static void fail(Scenario scenario, String failureReason, String exceptionCaughtMessage) {
-        try {
-            try {
-                Assertions.assertThat(false).isEqualTo(true);
-            } catch (AssertionError error) {
-                String message = "Failure Reason: " + failureReason + "\n" + exceptionCaughtMessage;
-                scenarioLogSafe(scenario, message);
-                throw new GenericException(message);
-            }
-        } catch (Throwable t) {
-            throw t;
-        }
+        String message = "Failure Reason: " + failureReason + "\n" + exceptionCaughtMessage;
+        scenarioLogSafe(scenario, message);
+        throw new GenericException(message);
     }
 
     public static void validate(Scenario scenario, String description, String failureReason, String expected, String actual) {
@@ -58,14 +50,15 @@ public class Report {
     }
 
     public static void screenshot(Scenario scenario) {
-        if (scenario != null) {
+        Scenario currentScenario = scenario != null ? scenario : TestBase.getScenario();
+        if (currentScenario != null) {
             try {
-                byte[] screenshot = TestBase.page.screenshot(new Page.ScreenshotOptions().setFullPage(true));
-                scenario.attach(screenshot, "image/png", "Screenshot");
+                byte[] screenshot = TestBase.page().screenshot(new Page.ScreenshotOptions().setFullPage(true));
+                currentScenario.attach(screenshot, "image/png", "Screenshot");
             } catch (IllegalStateException e) {
-                log.warn("Skipping scenario.attach(): " + e.getMessage());
+                log.warn("Skipping scenario.attach() due to state issue: {}", e.getMessage());
             } catch (Exception ex) {
-                log.error("Failed to capture screenshot: " + ex.getMessage(), ex);
+                log.error("Failed to capture screenshot: {}", ex.getMessage(), ex);
             }
         } else {
             log.warn("Cannot attach screenshot: Scenario is null.");
@@ -73,14 +66,15 @@ public class Report {
     }
 
     private static void scenarioLogSafe(Scenario scenario, String message) {
-        if (scenario != null) {
+        Scenario currentScenario = scenario != null ? scenario : TestBase.getScenario();
+        if (currentScenario != null) {
             try {
-                scenario.log(message);
+                currentScenario.log(message);
             } catch (IllegalStateException e) {
-                log.warn("Skipping scenario.log(): " + e.getMessage());
+                log.warn("Skipping scenario.log() due to state issue: {}", e.getMessage());
             }
         } else {
-            log.warn("Scenario is null. Log message: " + message);
+            log.warn("Scenario is null. Log message: {}", message);
         }
     }
 }

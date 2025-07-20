@@ -55,7 +55,7 @@ public class PostApiCall extends TestBase {
         Assertions.assertEquals(actualUsers.getGender(),users.getGender());
         Assertions.assertEquals(actualUsers.getStatus(),users.getStatus());
 
-        Report.validate(scenario, "Status Code has successfully extracted", "Status Code has not successfully extracted", 201, statusCode);
+        Report.validate(TestBase.getScenario(), "Status Code has successfully extracted", "Status Code has not successfully extracted", 201, statusCode);
     }
 
     public int validatePostApiResponse() throws IOException {
@@ -63,7 +63,7 @@ public class PostApiCall extends TestBase {
         JsonNode jsonResponse = om.readTree(apiResponse.body());
         String jsonBody = jsonResponse.toPrettyString();
         System.out.println(jsonBody);
-        Report.log(scenario, "Post API Reponse JsonBody is : \n" + jsonBody);
+        Report.log(TestBase.getScenario(), "Post API Reponse JsonBody is : \n" + jsonBody);
         Map<String, Object> jsonResponseBody = om.readValue(jsonBody, new TypeReference<>() {});
         int id = (Integer) jsonResponseBody.get("id");
         System.out.println("Extracted Id is : " + id);
