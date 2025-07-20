@@ -31,16 +31,16 @@ public class GetApiCall extends TestBase {
         int statusCode = apiResponse.status();
         System.out.println("Response Status Code is: " + statusCode);
         Assertions.assertEquals(statusCode, 200);
-        Report.validate(scenario, "Status Code has successfully extracted", "Status Code has successfully extracted", 200, statusCode);
+        Report.validate(TestBase.getScenario(), "Status Code has successfully extracted", "Status Code has successfully extracted", 200, statusCode);
         System.out.println(apiResponse.headers().get("content-type"));
         String url = apiResponse.url();
-        Report.log(scenario, "Extracted url from Response Body is  :  " + url);
+        Report.log(TestBase.getScenario(), "Extracted url from Response Body is  :  " + url);
         System.out.println("Extracted url from Response Body is  : " + url);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
         String jsonHeader = objectMapper.writeValueAsString(apiResponse.headers());
         System.out.println(jsonHeader);
-        Report.log(scenario, "Reponse JsonHeader is : " + jsonHeader);
+        Report.log(TestBase.getScenario(), "Reponse JsonHeader is : " + jsonHeader);
 
 //        ObjectMapper om = new ObjectMapper();
 //        JsonNode jsonResponse = om.readTree(apiResponse.body());
@@ -72,7 +72,7 @@ public class GetApiCall extends TestBase {
         JsonNode jsonResponse = om.readTree(apiResponse.body());
         String jsonBody = jsonResponse.toPrettyString();
         System.out.println("GET API Reponse JsonBody is : \n" + jsonBody);
-        Report.log(scenario, "GET API Reponse JsonBody is : \n" + jsonBody);
+        Report.log(TestBase.getScenario(), "GET API Reponse JsonBody is : \n" + jsonBody);
     }
 
 }

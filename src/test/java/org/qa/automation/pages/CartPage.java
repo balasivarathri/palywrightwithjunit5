@@ -3,23 +3,23 @@ package org.qa.automation.pages;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import lombok.extern.slf4j.Slf4j;
+import org.qa.automation.base.TestBase;
 import org.qa.automation.report.Report;
-
-import static org.qa.automation.base.TestBase.scenario;
 
 @Slf4j
 public class CartPage {
 
+    private final Page page;
     private final Locator checkOutButton;
-    private final Locator enterFristName;
+    private final Locator enterFirstName;
     private final Locator enterLastName;
     private final Locator enterPostalCode;
     private final Locator continueButton;
 
-
     public CartPage(Page page) {
+        this.page = page;
         this.checkOutButton = page.locator("//button[@name='checkout']");
-        this.enterFristName = page.locator("input[placeholder='First Name']");
+        this.enterFirstName = page.locator("input[placeholder='First Name']");
         this.enterLastName = page.locator("//input[@placeholder='Last Name']");
         this.enterPostalCode = page.locator("//input[@placeholder='Zip/Postal Code']");
         this.continueButton = page.locator("//input[@name='continue']");
@@ -29,29 +29,33 @@ public class CartPage {
         checkOutButton.click();
     }
 
-    public void enterFristName(String firstName) {
-        enterFristName.fill(firstName);
+    public void enterFirstName(String firstName) {
+        enterFirstName.fill(firstName);
     }
+
     public void enterLastName(String lastName) {
         enterLastName.fill(lastName);
     }
+
     public void enterPostalCode(String postalCode) {
         enterPostalCode.fill(postalCode);
     }
-    public void clickcontinueButton() {
+
+    public void clickContinueButton() {
         continueButton.click();
     }
 
     public void doTheCheckOutProcess() {
-        Report.log(scenario,"Verify that the two added items are displayed in the cart with the correct names and prices");
-        Report.screenshot(scenario);
+        Report.log(TestBase.getScenario(), "Verify that the two added items are displayed in the cart with the correct names and prices");
+        Report.screenshot(TestBase.getScenario());
         clickCheckOutButton();
     }
-    public void enterTheCheckOutDetails(){
-        enterFristName("Balu");
+
+    public void enterTheCheckOutDetails() {
+        enterFirstName("Balu");
         enterLastName("Sivarathri");
         enterPostalCode("1686");
-        clickcontinueButton();
-        Report.screenshot(scenario);
+        clickContinueButton();
+        Report.screenshot(TestBase.getScenario());
     }
 }

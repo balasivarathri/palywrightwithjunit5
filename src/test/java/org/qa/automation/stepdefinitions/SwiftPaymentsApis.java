@@ -55,7 +55,7 @@ public class SwiftPaymentsApis extends TestBase {
         payload = ExcelMultiline.unEscapeLineBreak(payload);
         finalPayload = payload;
         System.out.println(payload);
-        Report.log(scenario, "Generated Pacs008 message is : " + payload);
+        Report.log(TestBase.getScenario(), "Generated Pacs008 message is : " + payload);
     }
     @When("User should be able to drop the pacs008 payload into the incoming queue")
     public void user_should_be_able_to_drop_the_pacs008_payload_into_the_incoming_queue() throws JsonProcessingException {

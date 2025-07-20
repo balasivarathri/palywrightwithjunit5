@@ -10,6 +10,7 @@ import org.qa.automation.processor.Processor;
 import org.qa.automation.processor.TearDown;
 import org.qa.automation.report.ReportHelper;
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -22,19 +23,18 @@ public class Hook {
     private static final AtomicBoolean isBeforeAllDone = new AtomicBoolean(false);
     private static final AtomicBoolean isAfterAllDone = new AtomicBoolean(false);
 
-    public Hook() {}
-
     @Before(order = 0)
-    public void beforeScenario(Scenario scenario) {
-        TestBase.scenario = scenario;
+    public void beforeScenario(Scenario scenario) throws IOException {
+        TestBase.setScenario(scenario);
 
-        // Simulate BeforeAllCallback logic
         if (isBeforeAllDone.compareAndSet(false, true)) {
             log.info("------ CustomRunner Init START ------");
             runAnnotatedMethods(Initialize.class);
             executionDateTime = Processor.getDateAsString(DATEFORMAT);
             log.info("------ CustomRunner Init END ------");
         }
+
+        TestBase.browserInitialization();
 
         log.info("------ Scenario: START ------");
         log.info("Scenario Name: {}", scenario.getName());
@@ -47,22 +47,22 @@ public class Hook {
         log.info("Scenarios Result: {}", scenario.getStatus());
         log.info("------ Scenario: END ------");
 
-        // Simulate AfterAllCallback logic (only after last scenario runs)
-        // This logic assumes test teardown is triggered once per JVM shutdown
-        // You could also do this with a shutdown hook or after last scenario flag
+        if (scenario.isFailed()) {
+            TestBase.attachScreenshotToScenario(scenario);
+        }
+
+        TestBase.cleanup();
+
         if (isAfterAllDone.compareAndSet(false, true)) {
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 try {
-                    log.info("------ CustomRunner Teardown START (Simulated) ------");
-
+                    log.info("------ CustomRunner Teardown START ------");
                     runAnnotatedMethods(TearDown.class);
                     Processor.initializeTeardown(executionDateTime);
-
                     ReportHelper.generateCucumberReport();
-
                     log.info("------ CustomRunner Teardown END ------");
                 } catch (Exception e) {
-                    log.error("Error during simulated teardown: {}", e.getMessage(), e);
+                    log.error("Error during teardown: {}", e.getMessage(), e);
                 }
             }));
         }

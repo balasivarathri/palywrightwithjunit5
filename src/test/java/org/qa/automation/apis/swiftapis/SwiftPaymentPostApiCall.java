@@ -12,12 +12,9 @@ import org.junit.jupiter.api.Assertions;
 import org.qa.automation.POJO_Payloads.Users;
 import org.qa.automation.base.TestBase;
 import org.qa.automation.report.Report;
-import org.qa.automation.utils.Pacs008RefGenerator;
 
 import java.io.IOException;
 import java.util.Map;
-
-import static org.qa.automation.utils.Payloads.generateThreeDigitNumber;
 
 @Slf4j
 public class SwiftPaymentPostApiCall extends TestBase {
@@ -44,18 +41,17 @@ public class SwiftPaymentPostApiCall extends TestBase {
         ObjectMapper objectMapper = new ObjectMapper();
         Users actualUsers = objectMapper.readValue(responseText, Users.class);
         System.out.println(actualUsers);
-        Report.validate(scenario, "Status Code has successfully extracted", "Status Code has not successfully extracted", 201, statusCode);
+        Report.validate(TestBase.getScenario(), "Status Code has successfully extracted", "Status Code has not successfully extracted", 201, statusCode);
     }
-    public int validateSwiftPostApiResponse() throws IOException {
+    public void validateSwiftPostApiResponse() throws IOException {
         ObjectMapper om = new ObjectMapper();
         JsonNode jsonResponse = om.readTree(apiResponse.body());
         String jsonBody = jsonResponse.toPrettyString();
         System.out.println(jsonBody);
-        Report.log(scenario, "Post API Reponse JsonBody is : \n" + jsonBody);
+        Report.log(TestBase.getScenario(), "Post API Reponse JsonBody is : \n" + jsonBody);
         Map<String, Object> jsonResponseBody = om.readValue(jsonBody, new TypeReference<>() {});
         int amount = (Integer) jsonResponseBody.get("amount");
         System.out.println("Extracted Id is : " + amount);
-        return amount;
     }
 }
 
