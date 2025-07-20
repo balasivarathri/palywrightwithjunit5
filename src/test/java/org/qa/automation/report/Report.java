@@ -11,53 +11,76 @@ import org.qa.automation.exceptions.GenericException;
 public class Report {
 
     public Report() {
-
     }
 
     public static void log(Scenario scenario, String description) {
-        scenario.log(description);
+        scenarioLogSafe(scenario, description);
     }
-    public static void log(Scenario scenario, String description, String attachement) {
-        scenario.log(description + ":\n" + attachement);
+
+    public static void log(Scenario scenario, String description, String attachment) {
+        scenarioLogSafe(scenario, description + ":\n" + attachment);
     }
 
     public static void fail(Scenario scenario, String failureReason, String exceptionCaughtMessage) {
         try {
             try {
                 Assertions.assertThat(false).isEqualTo(true);
-            } catch (AssertionError var5) {
+            } catch (AssertionError error) {
                 String message = "Failure Reason: " + failureReason + "\n" + exceptionCaughtMessage;
-                scenario.log(failureReason);
+                scenarioLogSafe(scenario, message);
                 throw new GenericException(message);
             }
-        } catch (Throwable var6) {
-            throw var6;
+        } catch (Throwable t) {
+            throw t;
         }
+    }
 
+    public static void validate(Scenario scenario, String description, String failureReason, String expected, String actual) {
+        try {
+            Assertions.assertThat(actual).isEqualTo(expected);
+            scenarioLogSafe(scenario, description + "\nExpected [" + expected + "] and found [" + actual + "]");
+        } catch (AssertionError e) {
+            String failureMessage = description + "\nFailure Reason: " + failureReason + "\nExpected [" + expected + "] but found [" + actual + "]";
+            scenarioLogSafe(scenario, failureMessage);
+            throw new AssertionError(failureMessage + "\n" + e.getMessage());
+        }
     }
 
-    public static void validate(Scenario scenario, String description, String failureReason, String expected, String actual){
-        try{
+    public static void validate(Scenario scenario, String description, String failureReason, int expected, int actual) {
+        try {
             Assertions.assertThat(actual).isEqualTo(expected);
-            scenario.log(description + "\nexpected [" + expected + "] and found [" + actual + "]");
-        } catch (AssertionError var7){
-            String failureMessage = description + "\nFailure Reason: " + failureReason + "\nexpected [" + expected + "] but found [" + actual + "]";
-            scenario.log(failureMessage);
-            throw new AssertionError(failureMessage + "\n" + var7.getMessage());
+            scenarioLogSafe(scenario, description + "\nExpected [" + expected + "] and found [" + actual + "]");
+        } catch (AssertionError e) {
+            String failureMessage = description + "\nFailure Reason: " + failureReason + "\nExpected [" + expected + "] but found [" + actual + "]";
+            scenarioLogSafe(scenario, failureMessage);
+            throw new AssertionError(failureMessage + "\n" + e.getMessage());
         }
     }
-    public static void validate(Scenario scenario, String description, String failureReason, int expected, int actual){
-        try{
-            Assertions.assertThat(actual).isEqualTo(expected);
-            scenario.log(description + "\nexpected [" + expected + "] and found [" + actual + "]");
-        } catch (AssertionError var7){
-            String failureMessage = description + "\nFailure Reason: " + failureReason + "\nexpected [" + expected + "] but found [" + actual + "]";
-            scenario.log(failureMessage);
-            throw new AssertionError(failureMessage + "\n" + var7.getMessage());
+
+    public static void screenshot(Scenario scenario) {
+        if (scenario != null) {
+            try {
+                byte[] screenshot = TestBase.page.screenshot(new Page.ScreenshotOptions().setFullPage(true));
+                scenario.attach(screenshot, "image/png", "Screenshot");
+            } catch (IllegalStateException e) {
+                log.warn("Skipping scenario.attach(): " + e.getMessage());
+            } catch (Exception ex) {
+                log.error("Failed to capture screenshot: " + ex.getMessage(), ex);
+            }
+        } else {
+            log.warn("Cannot attach screenshot: Scenario is null.");
         }
     }
-    public static void screenshot(Scenario scenario){
-        byte[] screenshot = TestBase.page.screenshot(new Page.ScreenshotOptions().setFullPage(true));
-        scenario.attach(screenshot, "image/png", "Screenshot : ");
+
+    private static void scenarioLogSafe(Scenario scenario, String message) {
+        if (scenario != null) {
+            try {
+                scenario.log(message);
+            } catch (IllegalStateException e) {
+                log.warn("Skipping scenario.log(): " + e.getMessage());
+            }
+        } else {
+            log.warn("Scenario is null. Log message: " + message);
+        }
     }
 }
