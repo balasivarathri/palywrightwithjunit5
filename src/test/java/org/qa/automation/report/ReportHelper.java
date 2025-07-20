@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class ReportHelper {
     public static void generateCucumberReport(){
-        System.out.println("✅ Inside generateCucumberReport");
+        System.out.println("Inside generateCucumberReport");
 
         // Use a separate folder to avoid conflicts
         File reportOutputDirectory = new File("target/cucumber-html-reports");
@@ -25,9 +25,9 @@ public class ReportHelper {
         try {
             ReportBuilder reportBuilder = new ReportBuilder(jsonFiles, configuration);
             reportBuilder.generateReports();
-            System.out.println("✅ Report generated at: target/html-report/index.html");
+            System.out.println("Report generated at: target/html-report/index.html");
         } catch (Exception e) {
-            System.err.println("❌ Failed to generate report: " + e.getMessage());
+            System.err.println("Failed to generate report: " + e.getMessage());
             e.printStackTrace();
         }
     }
