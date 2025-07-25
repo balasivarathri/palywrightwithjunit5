@@ -133,7 +133,7 @@ public class BookerUserApiCall extends TestBase {
         JsonNode jsonResponse = om.readTree(apiResponse.body());
         String jsonBody = jsonResponse.toPrettyString();
 //        System.out.println("BOOKER API Booking Ids are : \n" + jsonBody);
-        Report.log(TestBase.getScenario(), "BOOKER API Booking Ids are : \n" + jsonBody);
+//        Report.log(TestBase.getScenario(), "BOOKER API Booking Ids are : \n" + jsonBody);
     }
 
     public void updateBookerUser(int bookingid) throws IOException {
