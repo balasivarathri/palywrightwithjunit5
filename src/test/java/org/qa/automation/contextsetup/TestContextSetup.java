@@ -8,10 +8,8 @@ import java.io.IOException;
 public class TestContextSetup {
 
     public PageObjectManager pageObjectManager;
-    public TestBase testBase;
 
     public TestContextSetup() throws IOException {
-        testBase = new TestBase();
-        pageObjectManager = new PageObjectManager(testBase.browserInitialization());
+        pageObjectManager = new PageObjectManager(TestBase.browserInitialization());
     }
 }
