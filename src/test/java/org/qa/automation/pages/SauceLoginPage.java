@@ -9,7 +9,7 @@ import org.qa.automation.report.Report;
 import org.qa.automation.urls.Url;
 
 @Slf4j
-public class SauceLoginPage {
+public class SauceLoginPage extends TestBase {
 
     private final Page page;
     private final Locator sauceUserName;

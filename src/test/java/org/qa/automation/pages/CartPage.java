@@ -7,9 +7,8 @@ import org.qa.automation.base.TestBase;
 import org.qa.automation.report.Report;
 
 @Slf4j
-public class CartPage {
+public class CartPage extends TestBase {
 
-    private final Page page;
     private final Locator checkOutButton;
     private final Locator enterFirstName;
     private final Locator enterLastName;
@@ -17,7 +16,6 @@ public class CartPage {
     private final Locator continueButton;
 
     public CartPage(Page page) {
-        this.page = page;
         this.checkOutButton = page.locator("//button[@name='checkout']");
         this.enterFirstName = page.locator("input[placeholder='First Name']");
         this.enterLastName = page.locator("//input[@placeholder='Last Name']");

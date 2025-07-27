@@ -8,7 +8,7 @@ import org.qa.automation.base.TestBase;
 import org.qa.automation.report.Report;
 
 @Slf4j
-public class InventoryPage {
+public class InventoryPage extends TestBase {
 
     private final Page page;
     private final Locator firstItem;
