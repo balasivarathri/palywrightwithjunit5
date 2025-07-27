@@ -8,7 +8,7 @@ import org.qa.automation.base.TestBase;
 import org.qa.automation.report.Report;
 
 @Slf4j
-public class CheckOutOverViewPage {
+public class CheckOutOverViewPage extends TestBase {
 
     private final Page page;
     private final Locator finishButton;
@@ -52,7 +52,7 @@ public class CheckOutOverViewPage {
     }
 
     public void logout() {
-        String expectedUrl = "https://www.saucedemo.com/";
+        String expectedUrl = "https://www.saucedemo.com1/";
         clickOnOpenMenuButton();
         clickLogOutButton();
         String actualUrl = getUrl();

@@ -26,7 +26,7 @@ public class TestBase {
 
         Playwright playwright = getOrCreatePlaywright();
 
-        String browserName = prop.getProperty("browser", "chromium").toLowerCase();
+        String browserName = System.getProperty("browser", prop.getProperty("browser", "chromium")).toLowerCase();
         Browser browser = switch (browserName) {
             case "chrome" -> playwright.chromium().launch(new BrowserType.LaunchOptions().setChannel("chrome").setHeadless(false).setArgs(List.of("--start-maximized")));
             case "edge" -> playwright.chromium().launch(new BrowserType.LaunchOptions().setChannel("msedge").setHeadless(false).setArgs(List.of("--start-maximized")));
