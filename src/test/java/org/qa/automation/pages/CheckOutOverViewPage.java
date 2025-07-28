@@ -52,7 +52,7 @@ public class CheckOutOverViewPage extends TestBase {
     }
 
     public void logout() {
-        String expectedUrl = "https://www.saucedemo.com/";
+        String expectedUrl = "https://www.saucedemo.com1/";
         clickOnOpenMenuButton();
         clickLogOutButton();
         String actualUrl = getUrl();
