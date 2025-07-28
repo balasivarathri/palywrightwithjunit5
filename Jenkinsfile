@@ -27,7 +27,6 @@ pipeline {
             }
         }
 
-
         stage('Generate Cucumber HTML Report') {
             steps {
                 bat """
