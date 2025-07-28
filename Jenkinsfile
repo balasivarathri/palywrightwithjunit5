@@ -27,7 +27,7 @@ pipeline
 			steps {
 				catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
 					git 'https://github.com/balasivarathri/palywrightwithjunit5.git'
-                    bat "mvn clean verify"
+                    bat "mvn clean test"
                 }
             }
         }
