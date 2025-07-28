@@ -14,7 +14,7 @@ public class ReportHelper {
         File reportOutputDirectory = new File("target/cucumber-html-reports");
         ArrayList<String> jsonFiles = new ArrayList<>();
         jsonFiles.add("target/cucumber-reports/cucumber.json"); // ✅ Correct path
-        String projectname = "UI-Report";
+        String projectname = "HTML-Status-Report";
 
         Configuration configuration = new Configuration(reportOutputDirectory, projectname);
         configuration.addClassifications("Platform", "Windows11");
